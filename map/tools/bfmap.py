@@ -205,10 +205,18 @@ def segment(config, row):
 
         if ((int(way[i][2]) >= 2) or (i == (len(way[:, 0]) - 1))):
             line.FlattenTo2D()
-            segment = (osm_id, class_id, source, way[i][
-                1], length, reverse, maxspeed_forward,
+            segment = (
+                osm_id, 
+                class_id, 
+                int(source), 
+                int(way[i][1]), 
+                length, 
+                reverse, 
+                maxspeed_forward,
                 maxspeed_backward,
-                priority, line.ExportToWkt())
+                priority, 
+                line.ExportToWkt())
+
             segments.append(segment)
 
             source = way[i][1]

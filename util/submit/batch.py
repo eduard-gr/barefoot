@@ -51,14 +51,13 @@ for sample in samples:
     if options.id is not None:
         sample["id"] = options.id
 
-tmp = "batch-%s" % random.randint(0, sys.maxint)
+tmp = "batch-%s" % random.randint(0, 2000)
 file = open(tmp, "w")
 try:
     try:
         file.write(
             "{\"format\": \"%s\", \"request\": %s}\n" %
-            (options.format, json.dumps(samples))
-        )
+            (options.format, json.dumps(samples)))
     finally:
         file.close()
 
@@ -67,13 +66,14 @@ try:
     s = socket.create_connection((options.host, options.port))
     try:
         with open(tmp) as f:
-            s.sendall(f.read())
+            #print(f.read())
+            s.sendall(bytes(f.read(), 'utf-8'))
         s.shutdown(socket.SHUT_WR)
         buf = s.recv(4096)
         while buf:
             if len(output) < 16:
-                output += buf
-            sys.stdout.write(buf)
+                output += buf.decode('utf-8')
+            sys.stdout.write(buf.decode('utf-8'))
             buf = s.recv(4096)
     finally:
         s.close()

@@ -54,7 +54,7 @@ import com.esri.core.geometry.WktExportFlags;
 public class Matcher extends Filter<MatcherCandidate, MatcherTransition, MatcherSample> {
     private static final Logger logger = LoggerFactory.getLogger(Matcher.class);
 
-    private final RoadMap map;
+    private final RoadMap planet;
     private final Router<Road, RoadPoint> router;
     private final Cost<Road> cost;
     private final SpatialOperator spatial;
@@ -71,14 +71,14 @@ public class Matcher extends Filter<MatcherCandidate, MatcherTransition, Matcher
     /**
      * Creates a HMM map matching filter for some map, router, cost function, and spatial operator.
      *
-     * @param map {@link RoadMap} object of the map to be matched to.
+     * @param planet {@link RoadMap} object of the map to be matched to.
      * @param router {@link Router} object to be used for route estimation.
      * @param cost Cost function to be used for routing.
      * @param spatial Spatial operator for spatial calculations.
      */
-    public Matcher(RoadMap map, Router<Road, RoadPoint> router, Cost<Road> cost,
+    public Matcher(RoadMap planet, Router<Road, RoadPoint> router, Cost<Road> cost,
             SpatialOperator spatial) {
-        this.map = map;
+        this.planet = planet;
         this.router = router;
         this.cost = cost;
         this.spatial = spatial;
@@ -191,7 +191,7 @@ public class Matcher extends Filter<MatcherCandidate, MatcherTransition, Matcher
                     GeometryEngine.geometryToWkt(sample.point(), WktExportFlags.wktExportPoint));
         }
 
-        Set<RoadPoint> points_ = map.spatial().radius(sample.point(), radius);
+        Set<RoadPoint> points_ = planet.spatial().radius(sample.point(), radius);
         Set<RoadPoint> points = new HashSet<>(Minset.minimize(points_));
 
         Map<Long, RoadPoint> map = new HashMap<>();
