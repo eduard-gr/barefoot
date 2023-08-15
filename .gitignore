@@ -1,5 +1,6 @@
 .idea/
 .git/
+.m2/
 
 internal/
 doc/
