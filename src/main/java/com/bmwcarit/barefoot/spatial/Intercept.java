@@ -54,8 +54,9 @@ import net.sf.geographiclib.GnomonicData;
  */
 
 public class Intercept {
+    public static final double epsilon = Math.pow(0.5, GeoMath.digits - 1);
 
-    private static final double eps = 0.01 * Math.sqrt(GeoMath.epsilon);
+    private static final double eps = 0.01 * Math.sqrt(epsilon);
     /**
      * Maximum number of iterations for calculation of interception point. (The solution should
      * usually converge before reaching the maximum number of iterations. The default is 10.)
